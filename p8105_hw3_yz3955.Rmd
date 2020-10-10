@@ -111,9 +111,25 @@ acce_df =
              Thursday = "weekday"),
     day = factor(day, levels= c("Monday", 
     "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"))) %>% 
-  arrange(week, day) %>% 
-  subset(select = -day_id)
+  arrange(week, day)
   
 ```
 
-The result dataset includes the week number, day of week, minutes of day, activity counts and a weekday vs weekend variables. There are total `r nrow(acce_df)` observations for recording actvity counts of every minutes in the 35 experient days.
+The result dataset includes the week number, day of week, minutes of day, activity counts and a weekday vs weekend variables. There are total `r nrow(acce_df)` observations for recording actvity counts of every minutes in the 35 experiment days.  
+
+
+Traditional analyses
+
+```{r}
+acce_df %>% 
+  group_by(week, day) %>% 
+  summarize(sumacti_counts = sum(activities_count)) %>% 
+  pivot_wider(
+    names_from = day,
+    values_from = sumacti_counts
+  ) %>% 
+  knitr::kable()
+```
+
+From the summary table, we could see that there has the least activity on Saturdays in week 4 and 5 than any other days in the total 35 experiment days. And also there is less activity in week 4 and week5 weekend than any other weeks. For every week, there is more activities on Wednesday than Tuesday.
+

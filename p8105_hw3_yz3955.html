@@ -525,15 +525,91 @@ library(tidyverse)</code></pre>
              Thursday = &quot;weekday&quot;),
     day = factor(day, levels= c(&quot;Monday&quot;, 
     &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;,&quot;Sunday&quot;))) %&gt;% 
-  arrange(week, day) %&gt;% 
-  subset(select = -day_id)</code></pre>
+  arrange(week, day)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
 ##   day = col_character()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
-<p>The result dataset includes the week number, day of week, minutes of day, activity counts and a weekday vs weekend variables. There are total 50400 observations for recording actvity counts of every minutes in the 35 experient days.</p>
+<p>The result dataset includes the week number, day of week, minutes of day, activity counts and a weekday vs weekend variables. There are total 50400 observations for recording actvity counts of every minutes in the 35 experiment days.</p>
+<p>Traditional analyses</p>
+<pre class="r"><code>acce_df %&gt;% 
+  group_by(week, day) %&gt;% 
+  summarize(sumacti_counts = sum(activities_count)) %&gt;% 
+  pivot_wider(
+    names_from = day,
+    values_from = sumacti_counts
+  ) %&gt;% 
+  knitr::kable()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;week&#39; (override with `.groups` argument)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">week</th>
+<th align="right">Monday</th>
+<th align="right">Tuesday</th>
+<th align="right">Wednesday</th>
+<th align="right">Thursday</th>
+<th align="right">Friday</th>
+<th align="right">Saturday</th>
+<th align="right">Sunday</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">78828.07</td>
+<td align="right">307094.2</td>
+<td align="right">340115</td>
+<td align="right">355923.6</td>
+<td align="right">480542.6</td>
+<td align="right">376254</td>
+<td align="right">631105</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">295431.00</td>
+<td align="right">423245.0</td>
+<td align="right">440962</td>
+<td align="right">474048.0</td>
+<td align="right">568839.0</td>
+<td align="right">607175</td>
+<td align="right">422018</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">685910.00</td>
+<td align="right">381507.0</td>
+<td align="right">468869</td>
+<td align="right">371230.0</td>
+<td align="right">467420.0</td>
+<td align="right">382928</td>
+<td align="right">467052</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">409450.00</td>
+<td align="right">319568.0</td>
+<td align="right">434460</td>
+<td align="right">340291.0</td>
+<td align="right">154049.0</td>
+<td align="right">1440</td>
+<td align="right">260617</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">389080.00</td>
+<td align="right">367824.0</td>
+<td align="right">445366</td>
+<td align="right">549658.0</td>
+<td align="right">620860.0</td>
+<td align="right">1440</td>
+<td align="right">138421</td>
+</tr>
+</tbody>
+</table>
+<p>From the summary table, we could see that there has the least activity on Saturdays in week 4 and 5 than any other days in the total 35 experiment days. And also there is less activity in week 4 and week5 weekend than any other weeks. For every week, there is more activities on Wednesday than Tuesday.</p>
 </div>
 
 
