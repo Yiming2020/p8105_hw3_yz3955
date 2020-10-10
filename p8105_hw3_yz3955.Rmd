@@ -131,5 +131,18 @@ acce_df %>%
   knitr::kable()
 ```
 
-From the summary table, we could see that there has the least activity on Saturdays in week 4 and 5 than any other days in the total 35 experiment days. And also there is less activity in week 4 and week5 weekend than any other weeks. For every week, there is more activities on Wednesday than Tuesday.
+From the summary table, we could see that there has the least activity on Saturdays in week 4 and 5 than any other days in the total 35 experiment days. And also there is less activity in week 4 and week5 weekend than any other weeks. For every week, there is more activities on Wednesday than Tuesday. The number of activities is relatively stable on Tuesday and Wednesday.  
 
+
+Make a single-panel plot
+
+```{r}
+acce_df %>% 
+  ggplot(aes(x = minutes_of_day, y = activities_count, color = day)) +
+  geom_line() +
+  ylab("Activity counts") +
+  xlab("Minutes of day(start from midnight") +
+  scale_x_continuous(n.breaks = 15)
+```
+
+From this plot, we could see that the number of activities spiked at around 450 minutes of day (nearly 7am). This is the time that people usually get up, so the number of activities increases. The number of activities dropped at around 800 minutes of day(nearly 1pm) because people usually have a break after lunch. And there are more activities from Friday 1200 minutes(nearly 8pm) to Friday 1300 minutes(nearly 9:40pm) than other week days.
