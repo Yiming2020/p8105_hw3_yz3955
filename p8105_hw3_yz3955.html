@@ -506,6 +506,35 @@ library(tidyverse)</code></pre>
 ## 1 Coffee Ice Cream  13.8  14.3  15.4  15.3  15.2  12.3  13.8
 ## 2 Pink Lady Apples  13.4  11.4  11.7  14.2  11.6  12.8  11.9</code></pre>
 </div>
+<div id="problem-2" class="section level2">
+<h2>Problem 2</h2>
+<p>Load, tidy, and otherwise wrangle the data.</p>
+<pre class="r"><code>acce_df = 
+  read_csv(&quot;./data/accel_data.csv&quot;) %&gt;% 
+  pivot_longer(
+    activity.1:activity.1440,
+    names_to = &quot;minutes_of_day&quot;,
+    values_to = &quot;activities_count&quot;
+  ) %&gt;% 
+  mutate(
+    minutes_of_day = sub( &quot;activity.&quot;, &quot;&quot;, minutes_of_day),
+    minutes_of_day = as.numeric(minutes_of_day),
+    weekend_or_weekday = 
+      recode(day,Sunday= &quot;weekend&quot;, Saturday = &quot;weekend&quot;, Friday = &quot;weekday&quot;,
+             Monday = &quot;weekday&quot;, Tuesday = &quot;weekday&quot;, Wednesday = &quot;weekday&quot;,
+             Thursday = &quot;weekday&quot;),
+    day = factor(day, levels= c(&quot;Monday&quot;, 
+    &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;,&quot;Sunday&quot;))) %&gt;% 
+  arrange(week, day) %&gt;% 
+  subset(select = -day_id)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   day = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<p>The result dataset includes the week number, day of week, minutes of day, activity counts and a weekday vs weekend variables. There are total 50400 observations for recording actvity counts of every minutes in the 35 experient days.</p>
+</div>
 
 
 

@@ -89,3 +89,31 @@ instacart %>%
   )
 ```
 
+
+## Problem 2
+
+Load, tidy, and otherwise wrangle the data. 
+
+```{r}
+acce_df = 
+  read_csv("./data/accel_data.csv") %>% 
+  pivot_longer(
+    activity.1:activity.1440,
+    names_to = "minutes_of_day",
+    values_to = "activities_count"
+  ) %>% 
+  mutate(
+    minutes_of_day = sub( "activity.", "", minutes_of_day),
+    minutes_of_day = as.numeric(minutes_of_day),
+    weekend_or_weekday = 
+      recode(day,Sunday= "weekend", Saturday = "weekend", Friday = "weekday",
+             Monday = "weekday", Tuesday = "weekday", Wednesday = "weekday",
+             Thursday = "weekday"),
+    day = factor(day, levels= c("Monday", 
+    "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"))) %>% 
+  arrange(week, day) %>% 
+  subset(select = -day_id)
+  
+```
+
+The result dataset includes the week number, day of week, minutes of day, activity counts and a weekday vs weekend variables. There are total `r nrow(acce_df)` observations for recording actvity counts of every minutes in the 35 experient days.
