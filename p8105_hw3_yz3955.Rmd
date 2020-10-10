@@ -163,6 +163,8 @@ ny_noaa_df =
   ny_noaa %>% 
   separate(date, into = c("year", "month", "day")) %>% 
   mutate(
+    month = as.numeric(month),
+    year = as.numeric(year),
     tmax = as.numeric(tmax),
     tmin = as.numeric(tmin),
     tmax_degree = tmax / 10,
@@ -176,4 +178,21 @@ ny_noaa_df %>%
   arrange(desc(n))
 ```
 
-The most commonly observed snowfall value is 0mm. The second commonly observed snowfall value is 25mm. The third commonly observed snowfall value is 13mm.
+The most commonly observed snowfall value is 0mm. The second commonly observed snowfall value is 25mm. The third commonly observed snowfall value is 13mm.  
+
+Make a two-panel plot showing the average max temperature in January and in July in each station across years
+
+```{r}
+ny_noaa_df %>%
+  filter(month == c(1, 7)) %>% 
+  group_by(id, year, month) %>% 
+  summarize(
+    mean_tmax_degree = mean(tmax_degree, na.rm = TRUE)
+  ) %>% 
+  ggplot(aes(x = year, y = mean_tmax_degree, color = id)) +
+  geom_point(alpha = .5, show.legend = FALSE) +
+  facet_grid(. ~ month) +
+  ylab("average max temperature(celsuis)")
+```
+
+From this two-panel plot,it shows that the average maximum temperature of January is lower than July. The average maximum temperatures of January and July across years did not show absolutely increase. It seems to exist a outline in Jan.2004, and a outline in 1988. But the outlines need to be verified by statistical calculation.
