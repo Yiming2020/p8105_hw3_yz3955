@@ -8,6 +8,7 @@ output: html_document
 library(p8105.datasets)
 library(tidyverse)
 data("instacart")
+data("ny_noaa")
 ```
 
 ```{r setup, include = FALSE}
@@ -145,4 +146,34 @@ acce_df %>%
   scale_x_continuous(n.breaks = 15)
 ```
 
-From this plot, we could see that the number of activities spiked at around 450 minutes of day (nearly 7am). This is the time that people usually get up, so the number of activities increases. The number of activities dropped at around 800 minutes of day(nearly 1pm) because people usually have a break after lunch. And there are more activities from Friday 1200 minutes(nearly 8pm) to Friday 1300 minutes(nearly 9:40pm) than other week days.
+From this plot, we could see that the number of activities spiked at around 450 minutes of day (nearly 7am). This is the time that people usually get up, so the number of activities increases. The number of activities dropped at around 800 minutes of day(nearly 1pm) because people usually have a break after lunch. And there are more activities from Friday 1200 minutes(nearly 8pm) to Friday 1300 minutes(nearly 9:40pm) than other week days.  
+
+
+## Problem 3
+
+The `ny_noaa` dataset contains `r nrow(ny_noaa)` rows and `r ncol(ny_noaa)` columns.  
+
+Observations that were reported from different stations are daily weather data in NY, which including maximum and minimum temperature(tenth degree of celsius), total daily precipitation(mm), snowfall(mm), and snow depth(mm). However, observations are not completed data. Many missing values of maximum and minimum temperature might obstruct our data analysis.
+  
+  
+Do some data cleaning
+
+```{r}
+ny_noaa_df = 
+  ny_noaa %>% 
+  separate(date, into = c("year", "month", "day")) %>% 
+  mutate(
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin),
+    tmax_degree = tmax / 10,
+    tmin_degree = tmin / 10
+  ) 
+
+ny_noaa_df %>% 
+  group_by(snow) %>% 
+  drop_na(snow) %>% 
+  count(snow) %>% 
+  arrange(desc(n))
+```
+
+The most commonly observed snowfall value is 0mm. The second commonly observed snowfall value is 25mm. The third commonly observed snowfall value is 13mm.
