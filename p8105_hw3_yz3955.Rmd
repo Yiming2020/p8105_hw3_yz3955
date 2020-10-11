@@ -208,7 +208,8 @@ Make a two-panel plot showing (i) tmax vs tmin for the full dataset ; and (ii) m
 tmax_tmin_p =
   ny_noaa_df %>% 
   ggplot(aes(x = tmax_degree, y = tmin_degree)) +
-  geom_hex()
+  geom_hex()+
+  theme(legend.text = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
 
 dis_snow_p =
   ny_noaa_df %>% 
@@ -218,6 +219,7 @@ dis_snow_p =
   filter(snow == (1:99)) %>% 
   ggplot(aes(x = year, y = snow, fill = year)) +
   geom_boxplot(alpha = .5, show.legend = FALSE) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   ylab("snowfall")
 
 tmax_tmin_p / dis_snow_p
