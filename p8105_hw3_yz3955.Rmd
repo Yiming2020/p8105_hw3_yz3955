@@ -190,8 +190,9 @@ ny_noaa_df %>%
   summarize(
     mean_tmax_degree = mean(tmax_degree, na.rm = TRUE)
   ) %>% 
-  ggplot(aes(x = year, y = mean_tmax_degree, color = id)) +
-  geom_point(alpha = .5, show.legend = FALSE) +
+  ggplot(aes(x = year, y = mean_tmax_degree)) +
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE)+
   facet_grid(. ~ month) +
   ylab("average max temperature(celsuis)") +
   scale_x_continuous(
@@ -199,7 +200,7 @@ ny_noaa_df %>%
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
-From this two-panel plot,it shows that the average maximum temperature of January is lower than July. The average maximum temperatures of January and July across years did not show absolutely increase. It seems to exist several outliers, which show as dots in the plot, such as Jan.2004, July. 2988.
+From this two-panel plot,it shows that the average maximum temperature of January is lower than July. The average maximum temperatures of January and July across years did not show absolutely increase from 1981 to 2010. The average maximum temperatures of January look like a oscillation plot, which increase between 1981 and 1990, and then drop from year 1990 to 1994. The average maximum temoeratures of July is more stable. It seems to exist several outliers, which show as dots in the plot, such as Jan.2004, July. 2988.
 
 
 Make a two-panel plot showing (i) tmax vs tmin for the full dataset ; and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
